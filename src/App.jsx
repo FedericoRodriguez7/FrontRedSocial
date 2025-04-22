@@ -5,7 +5,10 @@ function App() {
   
 
   return (
-    <h1>hola</h1>
+    <div className='layout'>
+      <h1>hola</h1>
+    </div>
+    
   )
 }
 
