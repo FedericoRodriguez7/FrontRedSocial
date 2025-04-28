@@ -1,15 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from '../hooks/useForm'
+import { Global } from '../helpers/Global';
 
 export const Register = () => {
 
   const { form, changed } = useForm({});
 
-  const saveUser = (e) => {
+  const [saved, setSaved] = useState("not_sended")
+
+  const saveUser = async(e) => {
     e.preventDefault();
     
     let newUser = form;
     console.log(newUser);
+
+    //GUARDAR USUARIO EN BACKEND
+    const request = await fetch(Global.url + "user/register", {
+      method: "POST",
+      body: JSON.stringify(newUser),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    
+    })
+
+    const data = await request.json();
+
+    if(data.status == "success"){
+      setSaved("saved");
+
+    }else{
+      setSaved("error")
+    }
+
+    
+
   }
 
 
@@ -22,6 +47,10 @@ export const Register = () => {
             </header>
 
       <div className="content_posts">
+
+        <strong className='alert alert-success'>{saved == "saved" ? "Usuario registrado correctamente !!" : ''}</strong>
+        <strong className='alert alert-danger'>{saved == "error" ? "El usuario no se ha registrado !!" : ''}</strong>
+
 
           <form className='register-form' onSubmit={saveUser}>
 
