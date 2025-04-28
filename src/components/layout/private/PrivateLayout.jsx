@@ -1,8 +1,9 @@
 import React from 'react'
-import { Header } from '../public/Header'
+import { Header } from '../private/Header'
 import { Outlet } from 'react-router-dom'
+import { SideBar } from './SideBar'
 
-export const PublicLayout = () => {
+export const PrivateLayout = () => {
   return (
     <>
         {/*LAYAOUT*/}
@@ -13,7 +14,7 @@ export const PublicLayout = () => {
 
         </section>
 
-        
+        <SideBar /> 
 
 
     </>
