@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
+import { Routes, Route, BrowserRouter, Navigate, Link} from 'react-router-dom'
 import { PublicLayout } from '../layout/public/PublicLayout'
 import { Login } from '../user/Login'
 import { Register } from '../user/Register'
@@ -21,8 +21,18 @@ export const Routing = () => {
             <Route index element={<Feed/>} />
             <Route path='feed' element={<Feed/>} />
 
-        
-        
+        </Route>
+
+        <Route path='*' element={
+          <>
+          <p>
+          <h1>ERROR 404</h1>
+          <Link to="/">Volver al inicio</Link>
+          </p>
+          
+          </>
+        }>
+
         </Route>
 
     </Routes>
