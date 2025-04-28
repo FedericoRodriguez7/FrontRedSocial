@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Header } from './components/layout/public/Header'
+
+import { Routing } from './components/router/Routing'
 
 
 function App() {
@@ -7,9 +7,9 @@ function App() {
 
   return (
     <div className='layout'>
-      <Header />
+      <Routing/>
 
-      <section class="layout_content" >
+      <section className="layout_content" >
 
         
       </section>
