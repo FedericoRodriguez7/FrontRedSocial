@@ -438,3 +438,24 @@ button{
     font-size: 1.4rem;
 }
 
+.alert{
+    width: 50%;
+    display: block;
+    padding: 1rem
+    margin-bottom: 1rem
+    border-radius; 3px;
+}
+
+.alert-success{
+    backgroud: #5cb85c;
+    border: 1px solid #0c8e0c
+    color: white;
+    
+}
+
+.alert-danger{
+    backgroud:rgb(228, 15, 0);
+    border: 1px solidrgb(233, 0, 0)
+    color: white;
+    
+}
