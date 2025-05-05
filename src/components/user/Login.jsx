@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from '../hooks/useForm'
 import { Global } from '../helpers/Global';
 
@@ -6,6 +6,7 @@ export const Login = () => {
   
 
   const { form, changed } = useForm({});
+  const [ saved, setSaved] = useState("not_sended");
   
   const loginUser = async(e) => {
       e.preventDefault();
@@ -23,9 +24,18 @@ export const Login = () => {
 
 
       const data = await request.json();
-      //persistir datos en el navegador
 
-      console.log(data)
+      if(data.status == "success"){
+
+      //persistir datos en el navegador
+      localStorage.setItem("token",)
+
+        setSaved("login")
+      }else {
+        setSaved("error")
+      }
+
+     
   }
 
 
@@ -38,6 +48,15 @@ export const Login = () => {
           </header>
 
     <div className="content_posts">
+
+    {saved == "login" ?
+        <strong className='alert alert-success'> Usuario identificado correctamente !! </strong>
+        : ''}
+
+        {saved == "error" ?
+        <strong className='alert alert-danger'> El usuario no se ha identificado !!</strong>
+        : ''}
+
         <form className='form-login' onSubmit={loginUser}>
           <div className='form-group'>
             <label htmlFor="email">Email</label>
