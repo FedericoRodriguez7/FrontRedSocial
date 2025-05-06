@@ -5,10 +5,12 @@ import { Login } from '../user/Login'
 import { Register } from '../user/Register'
 import { PrivateLayout } from '../layout/private/PrivateLayout'
 import { Feed } from '../publication/Feed'
+import { AuthProvider } from '../context/AuthProvider'
 
 export const Routing = () => {
   return (
     <BrowserRouter>
+    <AuthProvider>
     <Routes>
 
         <Route path='/' element={<PublicLayout/>}>
@@ -36,7 +38,7 @@ export const Routing = () => {
         </Route>
 
     </Routes>
-    
+    </AuthProvider>
     </BrowserRouter>
   )
 }
