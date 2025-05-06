@@ -5,10 +5,10 @@ import { SerializeForm } from '../helpers/SerializeForm';
 
 export const Config = () => {
 
-    const {auth} = useAuth();
+    const {auth, setAuth} = useAuth();
     const [saved, setSaved] = useState("not-saved");
 
-    const updateUser = (e) => {
+    const updateUser = async(e) => {
         e.preventDefault();
 
         //recoger datos del formulario
@@ -16,6 +16,25 @@ export const Config = () => {
       delete newDataUser.file0;
 
       //actualizar usuario en base de datos
+      const request = await fetch(Global.url + "user/update", {
+        method: "PUT",
+        body: JSON.stringify(newDataUser),
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": localStorage.getItem("token")
+        }
+      }
+
+      )
+      const data = await request.json();
+
+      if(data.status == "success"){
+        delete data.user.password
+        setAuth(data.user)
+        setSaved("saved")
+      }else{
+        setSaved("error")
+      }
     }
 
   return (
@@ -27,11 +46,11 @@ export const Config = () => {
 
             <div className='content__posts'>
             {saved == "saved" ?
-        <strong className='alert alert-success'> Usuario registrado correctamente !! </strong>
+        <strong className='alert alert-success'> Usuario actualizado correctamente !! </strong>
         : ''}
 
         {saved == "error" ?
-        <strong className='alert alert-danger'> El usuario no se ha registrado !!</strong>
+        <strong className='alert alert-danger'> El usuario no se ha podido actualizar !!</strong>
         : ''}
 
           <form className='config-form' onSubmit={updateUser}>
@@ -76,7 +95,7 @@ export const Config = () => {
 
                 </div>
                 <br />
-                <input type='submit' value="Registrate" className='btn btn-success'></input>
+                <input type='submit' value="Actualizar" className='btn btn-success'></input>
 
 
           </form>
