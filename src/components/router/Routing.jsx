@@ -7,6 +7,8 @@ import { PrivateLayout } from '../layout/private/PrivateLayout'
 import { Feed } from '../publication/Feed'
 import { AuthProvider } from '../context/AuthProvider'
 import { LogOut } from '../user/LogOut'
+import { People } from '../user/People'
+import { Config } from '../user/Config'
 
 export const Routing = () => {
   return (
@@ -24,6 +26,10 @@ export const Routing = () => {
             <Route index element={<Feed/>} />
             <Route path='feed' element={<Feed/>} />
             <Route path='logout' element={<LogOut/>} />
+            <Route path='gente' element={<People/>} />
+            <Route path='ajustes' element={<Config/>} />
+
+
 
         </Route>
 
