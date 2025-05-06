@@ -29,7 +29,8 @@ export const Login = () => {
       if(data.status == "success"){
 
       //persistir datos en el navegador
-      localStorage.setItem("token",)
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
         setSaved("login")
       }else {
