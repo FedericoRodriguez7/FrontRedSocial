@@ -7,6 +7,7 @@ export const AuthProvider = ({children}) => {
 
    const [auth, setAuth] = useState({});
    const [counters, setCounters] = useState({});
+   const [loading, setLoading] = useState(true);
 
 
    useEffect(() => {
@@ -53,6 +54,7 @@ export const AuthProvider = ({children}) => {
 
         setAuth(data.user);
         setCounters(dataCounters);
+        setLoading(false);
    }
 
 
@@ -61,7 +63,8 @@ export const AuthProvider = ({children}) => {
     value={{
         auth,
         setAuth,
-        counters
+        counters,
+        loading
     }}
     
     >
