@@ -11,6 +11,9 @@ export const Config = () => {
     const updateUser = async(e) => {
         e.preventDefault();
 
+        //token de autentificacion
+        const token = localStorage.getItem("token");
+
         //recoger datos del formulario
       let newDataUser = SerializeForm(e.target)
       delete newDataUser.file0;
@@ -29,13 +32,50 @@ export const Config = () => {
       const data = await request.json();
 
       if(data.status == "success"){
-        delete data.user.password
+        delete data.user.password 
         setAuth(data.user)
         setSaved("saved")
       }else{
         setSaved("error")
       }
+
+
+      //subida de imagesnes
+
+      const fileInput = document.querySelector("#file");
+
+      if(data.status == "success" && fileInput.files[0]){
+
+        //recoger imagen a subir
+        const formData = new FormData();
+        formData.append('file0', fileInput.files[0]);
+      
+
+        //peticion para enviar el fichero
+
+        const uploadRequest = await fetch(Global.url + "user/upload", {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Authorization": token,
+
+          }
+        });
+        const uploadData = await uploadRequest.json();
+
+        if (uploadData.status === "success" && uploadData.user) {
+          delete uploadData.user.password;
+          setAuth(uploadData.user);
+          setSaved("saved");
+        } else {
+          setSaved("error");
+        }
+
+      }
+
     }
+
+
 
   return (
     <>
@@ -99,6 +139,7 @@ export const Config = () => {
 
 
           </form>
+          <br />
             </div>
     
     
