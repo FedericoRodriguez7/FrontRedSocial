@@ -251,6 +251,12 @@ body {
     border-color: var(--color-border-btn-delete);
 }
 
+.post__button--green{
+    background-color: var(--color-background-btn-success: #5cb85c;);
+    border-color: var(--color-border-btn-success: #4cae4c;);
+}
+
+
 
 .post__button:hover{
     background-color: var(--color-background-btn-delete-hover);
