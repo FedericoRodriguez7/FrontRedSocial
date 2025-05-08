@@ -7,6 +7,7 @@ export const People = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [more, setMore] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getUsers(1);
@@ -14,6 +15,8 @@ export const People = () => {
 
   const getUsers = async (nextPage = 1) => {
 
+    //EFECTO DE CARGA
+    setLoading(true)
     //Peticion para sacar usuarios
     const request = await fetch(Global.url + 'user/list/' + nextPage, {
       method: "GET",
@@ -26,6 +29,7 @@ export const People = () => {
 
     const data = await request.json();
 
+
     //crear un estado para poder listarlos
     if (data.users && data.status == "success") {
 
@@ -36,11 +40,13 @@ export const People = () => {
       }
 
       setUsers(newUsers);
+      setLoading(false)
+
     }
 
     //paginacion
 
-    if(users.length >= (data.total - data.users.length)){
+    if (users.length >= (data.total - data.users.length)) {
       setMore(false);
     }
 
@@ -61,6 +67,8 @@ export const People = () => {
       </header>
 
       <div className="content__posts">
+
+        {loading ? "Cargando..." : ""}
 
         {users.map(user => {
           return (
@@ -96,6 +104,10 @@ export const People = () => {
 
                 <a href="#" className="post__button post__button--green">
                   Seguir
+                </a>
+
+                <a href="#" className="post__button post__button--green">
+                  Dejar de seguir
                 </a>
 
               </div>
