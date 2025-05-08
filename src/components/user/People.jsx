@@ -8,6 +8,7 @@ export const People = () => {
   const [page, setPage] = useState(1);
   const [more, setMore] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     getUsers(1);
@@ -40,6 +41,7 @@ export const People = () => {
       }
 
       setUsers(newUsers);
+      setFollowing(data.user_following)
       setLoading(false)
 
     }
@@ -102,14 +104,16 @@ export const People = () => {
 
               <div className="post__buttons">
 
-                <a href="#" className="post__button post__button--green">
-                  Seguir
-                </a>
-
-                <a href="#" className="post__button post__button--green">
-                  Dejar de seguir
-                </a>
-
+                {!following.includes(user._id) &&
+                  <a href="#" className="post__button post__button--green">
+                    Seguir
+                  </a>
+                }
+                {following.includes(user._id) &&
+                  <a href="#" className="post__button post__button--green">
+                    Dejar de seguir
+                  </a>
+                }
               </div>
 
             </article>
