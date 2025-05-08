@@ -60,6 +60,55 @@ export const People = () => {
     getUsers(next)
   }
 
+  const follow =  async(userId) => {
+    //peticion al backend
+    const request = await fetch(Global.url + "follow/save", {
+      method: "POST",
+      body: JSON.stringify({followed: userId}),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": localStorage.getItem("token")
+      }
+    });
+
+    const data = await  request.json();
+
+
+    //cuando todo este ok
+    if(data.status == "success"){
+
+      //actualizar estado de following
+      setFollowing([...following, userId])
+    }
+
+  }
+
+  const unfollow =  async(userId) => {
+    //petcion al bakend
+    const request = await fetch(Global.url +  "follow/unfollow/" + userId, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "applicattion/json",
+        "Authorization": localStorage.getItem("token")
+      }
+    });
+
+    const data = await  request.json();
+
+    //cuando todo este ok
+    if(data.status == "success"){
+
+      //actualizar estado de following
+      //filtrando los datos para eliminar
+      //que acabode seguir
+
+      let filterFollowings = following.filter(followingUserId => userId !== followingUserId);
+      setFollowing(filterFollowings);
+    }
+    
+  }
+
+
 
   return (
     <>
@@ -105,14 +154,14 @@ export const People = () => {
               <div className="post__buttons">
 
                 {!following.includes(user._id) &&
-                  <a href="#" className="post__button post__button--green">
+                  <button  className="post__button post__button--green" onClick={() => follow(user._id)}>
                     Seguir
-                  </a>
+                  </button>
                 }
                 {following.includes(user._id) &&
-                  <a href="#" className="post__button post__button--green">
+                  <button  className="post__button post__button--green" onClick={() => unfollow(user._id)}>
                     Dejar de seguir
-                  </a>
+                  </button>
                 }
               </div>
 
