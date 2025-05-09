@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Global } from '../helpers/Global'
 import { UserList } from '../user/UserList'
+import { useParams } from 'react-router-dom';
 
 export const Followers = () => {
 
@@ -11,6 +12,8 @@ export const Followers = () => {
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState([]);
 
+  const params = useParams()
+
   useEffect(() => {
     getUsers(1);
   }, [])
@@ -19,8 +22,11 @@ export const Followers = () => {
 
     //EFECTO DE CARGA
     setLoading(true)
+
+    const userId = params.userId;
+
     //Peticion para sacar usuarios
-    const request = await fetch(Global.url + 'user/list/' + nextPage, {
+    const request = await fetch(Global.url + 'follow/followers/' + userId + "/" + nextPage, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,6 +36,13 @@ export const Followers = () => {
     });
 
     const data = await request.json();
+
+    let cleanUsers = []
+
+    data.follows.forEach(follow =>{
+        cleanUsers = [...cleanUsers, follow.user]
+    })
+    data.users = cleanUsers;
 
 
     //crear un estado para poder listarlos
@@ -66,7 +79,7 @@ export const Followers = () => {
   return (
     <>
       <header className="content__header">
-        <h1 className="content__title">Gente</h1>
+        <h1 className="content__title">Seguidores de.. </h1>
 
       </header>
 
