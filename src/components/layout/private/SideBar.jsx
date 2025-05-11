@@ -14,6 +14,8 @@ export const SideBar = () => {
     const savePublication = async (e) => {
         e.preventDefault();
 
+        const token = localStorage.getItem("token")
+
         //RECOGER DATOS DE FORMULARIO
         let newPublication = form;
         newPublication.user = auth._id;
@@ -24,7 +26,7 @@ export const SideBar = () => {
             body: JSON.stringify(newPublication),
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token")
+                "Authorization": token
             }
         });
 
@@ -38,6 +40,32 @@ export const SideBar = () => {
         }
 
         //SUBIR IMAGEN
+        const fileInput = document.querySelector('#file');
+
+        if(data.status == "success" & fileInput.files[0]){
+            const formData = new FormData();
+            formData.append("file0", fileInput.files[0]);
+
+            const uploadRequest = await fetch(Global.url + "publication/upload/" + data.publicationStored._id, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Authorization": token
+                }
+            });
+            const uploadData = await uploadRequest.json();
+
+            if(uploadData.status == "success"){
+                setStored("stored");
+            }else{
+                setStored("error");
+            }
+
+            if(data.status ="success" && uploadData.status == "success"){
+                const myForm = document.querySelector("#publication-form");
+                myForm.reset();
+            }
+        }
     }
 
     return (
@@ -100,7 +128,7 @@ export const SideBar = () => {
                     {stored == "error" ?
                         <strong className='alert alert-danger'> No se ha publicado nada !!</strong>
                         : ''}
-                    <form className="container-form__form-post" onSubmit={savePublication}>
+                    <form id="publication-form" className="container-form__form-post" onSubmit={savePublication}>
 
                         <div className="form-post__inputs">
                             <label htmlFor="text" className="form-post__label">¿Que estas pesando hoy?</label>
