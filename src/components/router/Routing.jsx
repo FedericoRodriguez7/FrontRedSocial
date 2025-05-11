@@ -11,6 +11,7 @@ import { People } from '../user/People'
 import { Config } from '../user/Config'
 import { Following } from '../follow/Following'
 import { Followers } from '../follow/Followers'
+import { Profile } from '../user/Profile'
 
 export const Routing = () => {
   return (
@@ -32,6 +33,8 @@ export const Routing = () => {
             <Route path='ajustes' element={<Config/>} />
             <Route path='siguiendo/:userId' element={<Following/>} />
             <Route path='seguidores/:userId' element={<Followers/>} />
+            <Route path='perfil/:userId' element={<Profile/>} />
+
 
 
 
