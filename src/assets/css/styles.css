@@ -445,7 +445,7 @@ button{
 }
 
 .alert{
-    width: 50%;
+    width: 60%;
     display: block;
     padding: 1rem
     margin-bottom: 1rem
@@ -453,14 +453,14 @@ button{
 }
 
 .alert-success{
-    backgroud: #5cb85c;
+    background-color: #5cb85c;
     border: 1px solid #0c8e0c
     color: white;
     
 }
 
 .alert-danger{
-    backgroud:rgb(228, 15, 0);
+    background-color:rgb(228, 15, 0);
     border: 1px solidrgb(233, 0, 0)
     color: white;
     
