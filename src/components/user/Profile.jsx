@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import avatar from "../../assets/img/user.png"
+import { GetProfile } from '../helpers/GetProfile'
+import { useParams } from 'react-router-dom';
+import { Global } from '../helpers/Global';
+import useAuth from '../hooks/useAuth';
 
 export const Profile = () => {
+
+    const [user, setUser] = useState({});
+
+    const params = useParams();
+
+    useEffect(() => {
+        GetProfile(params.userId, setUser);
+    }, [])
+
     return (
         <>
 
@@ -9,17 +22,19 @@ export const Profile = () => {
 
                 <div className="profile-info__general-info">
                     <div className="general-info__container-avatar">
-                        <img src={avatar} className="container-avatar__img" alt="Foto de perfil" />
+                        {user.image != "default.png" && <img src={Global.url + "user/avatar/" + user.image} className="container-avatar__img" alt="Foto de perfil" />}
+                        {user.image == "default.png" && <img src={avatar} className="container-avatar__img" alt="Foto de perfil" />}
+
                     </div>
 
                     <div className="general-info__container-names">
-                        <p href="#" className="container-names__name">
-                            <h1>Victor Robles</h1>
+                        <div className="container-names__name">
+                            <h1>{user.name} {user.surname}</h1>
                             <button className="content__button content__button--right">Seguir</button>
-                        </p>
-                        <p className="container-names__nickname">VictorWeb</p>
-                        <p>Biografia</p>
-                        
+                        </div>
+                        <p className="container-names__nickname">{user.nick}</p>
+                        <p>{user.bio}</p>
+
                     </div>
                 </div>
 
