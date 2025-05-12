@@ -27,6 +27,7 @@ export const Profile = () => {
 
         getDataUser();
         getCounters();
+        setMore(true);
         getPublications(1, true);
     }, [params])
 
@@ -113,15 +114,20 @@ export const Profile = () => {
                 newPublications = [...publications, ...data.publications];
             }
 
-            if (newProfile){
+            if (newProfile) {
                 newPublications = data.publications;
-                setMore(true)
+                setMore(true);
+                setPage(1);
             }
 
 
             setPublications(newPublications);
 
-            if (publications.length >= (data.total - data.publications.length)) {
+            if (!newProfile && publications.length >= (data.total - data.publications.length)) {
+                setMore(false);
+            }
+
+            if (data.pages <= 1) {
                 setMore(false);
             }
         }
@@ -131,6 +137,21 @@ export const Profile = () => {
         let next = page + 1
         setPage(next);
         getPublications(next);
+    }
+
+    const deletePublication = async (publicationId) => {
+        const request = await fetch(Global.url + "publication/remove/" + publicationId, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+        const data = await request.json()
+
+        setPage(1)
+        setMore(true)
+        getPublications(1, true);
     }
 
     return (
@@ -222,6 +243,7 @@ export const Profile = () => {
 
                                     <h4 className="post__content">{publication.text}</h4>
 
+                                    {publication.file && <img src={Global.url + "publication/media/" + publication.file} />}
                                 </div>
 
                             </div>
@@ -229,9 +251,9 @@ export const Profile = () => {
                             {auth._id == publication.user._id &&
                                 <div className="post__buttons">
 
-                                    <a href="#" className="post__button">
+                                    <button onClick={() => deletePublication(publication._id)} className="post__button">
                                         <i className="fa-solid fa-trash-can"></i>
-                                    </a>
+                                    </button>
 
                                 </div>
                             }
@@ -247,7 +269,7 @@ export const Profile = () => {
                 </div>
             }
 
-<br />
+            <br />
         </>
     )
 }
