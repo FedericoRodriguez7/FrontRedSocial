@@ -129,6 +129,5 @@ export const UserList = ({ users, getUsers, following,
                     </button>
                 </div>
             }
-
         </>)
 }
