@@ -71,7 +71,6 @@ export const Followers = () => {
 
   }
 
- 
   return (
     <>
       <header className="content__header">
