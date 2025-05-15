@@ -15,7 +15,6 @@ import es from 'javascript-time-ago/locale/es.json'
 TimeAgo.addDefaultLocale(es);
 TimeAgo.addLocale(es);
 
-
 createRoot(document.getElementById('root')).render(
   
     <App />
